@@ -23,6 +23,13 @@ jobs:
         python-version: ${{ matrix.python-version }}
         cache: 'pip'
 
+    - name: Free Up Disk Space
+      run: |
+        sudo rm -rf /usr/local/lib/android
+        sudo rm -rf /opt/ghc
+        sudo rm -rf /usr/share/dotnet
+        sudo rm -rf /opt/hostedtoolcache/CodeQL
+
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
@@ -49,6 +56,9 @@ jobs:
 
   security:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      security-events: write
     steps:
     - name: Checkout code
       uses: actions/checkout@v4
